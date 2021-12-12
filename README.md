@@ -155,7 +155,7 @@ In order to run the algorithms on a particular graph:
 
 ## Visualization
 json1 with tsp function of some nodes:
-![This is an image](https://github.com/YosiElias/OOP_Ex2/blob/master/venv/graphTsp.png)
+![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/TSPgraph.jpeg)
 
 ### External info
 
