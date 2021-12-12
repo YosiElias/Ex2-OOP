@@ -1,11 +1,13 @@
 import api.DirectedWeightedGraphAlgorithms;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
 
 
 
@@ -32,6 +34,17 @@ public class GuiGraph extends JFrame implements ActionListener {
     private ImageIcon loadIcon;
     private ImageIcon saveIcon;
     private ImageIcon exitIcon;
+    private ImageIcon cleanIcon;
+    private ImageIcon connectedIcon;
+    private ImageIcon shortestPathDistIcon;
+    private ImageIcon shortestPathIcon;
+    private ImageIcon centerIcon;
+    private ImageIcon tspIcon;
+    private ImageIcon addNodeIcon;
+    private ImageIcon deletNodeIcon;
+    private ImageIcon addEdgeIcon;
+    private ImageIcon deletEdgeIcon;
+
     private GraphPanel panel;
 
 
@@ -60,23 +73,33 @@ public class GuiGraph extends JFrame implements ActionListener {
 
 
 
-        loadIcon = new ImageIcon("./resources/load.jpg");
-        saveIcon = new ImageIcon("./resources/save.png");
-        exitIcon = new ImageIcon("./resources/exit.jpg");
-//        cleanScreen =  new ImageIcon("./resources/load.jpg");
-//        isConnected
-//        shortestPathDist;
-//        shortestPath;
-//        center;
-//        tsp;
-//        addNode;
-//        deletNode;
-//        addEdge;
-//        deletEdge;
+        loadIcon =  new javax.swing.ImageIcon(this.getClass().getResource("/resources/load.jpg"));
+        saveIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/save.png"));
+        exitIcon =  new javax.swing.ImageIcon(this.getClass().getResource("/resources/exit.jpg"));
+        cleanIcon =  new javax.swing.ImageIcon(this.getClass().getResource("/resources/clean.png"));
+        connectedIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/is.jpg")); ;
+        shortestPathDistIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/distwight.png")); ;
+        shortestPathIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/dist.png")); ;
+        centerIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/center.jpg")); ;
+        tspIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/tsp.png")); ;
+        addNodeIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/add.png")); ;
+        deletNodeIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/delete.jpg")); ;
+        addEdgeIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/add.png")); ;
+        deletEdgeIcon = new javax.swing.ImageIcon(this.getClass().getResource("/resources/delete.jpg")); ;
 
         loadIcon = scaleImageIcon(loadIcon,20,20);
         saveIcon = scaleImageIcon(saveIcon,20,20);
         exitIcon = scaleImageIcon(exitIcon,20,20);
+        cleanIcon =  scaleImageIcon(cleanIcon,20,20);
+        connectedIcon = scaleImageIcon(connectedIcon,20,20);
+        shortestPathDistIcon = scaleImageIcon(shortestPathDistIcon,20,20);
+        shortestPathIcon = scaleImageIcon(shortestPathIcon,20,20);
+        centerIcon = scaleImageIcon(centerIcon,20,20);
+        tspIcon = scaleImageIcon(tspIcon,20,20);
+        addNodeIcon = scaleImageIcon(addNodeIcon,20,20);
+        deletNodeIcon =  scaleImageIcon(deletNodeIcon,20,20);
+        addEdgeIcon =  scaleImageIcon(addEdgeIcon,20,20);
+        deletEdgeIcon =  scaleImageIcon(deletEdgeIcon,20,20);
 
         menuBar = new JMenuBar();
 
@@ -89,35 +112,11 @@ public class GuiGraph extends JFrame implements ActionListener {
         exitItem = new JMenuItem("Exit");
         cleanScreen = new JMenuItem("clean Screen");
 
-        loadItem.addActionListener(this);
-        saveItem.addActionListener(this);
-        exitItem.addActionListener(this);
-        cleanScreen.addActionListener(this);
-
-
-        loadItem.setIcon(loadIcon);
-        saveItem.setIcon(saveIcon);
-        exitItem.setIcon(exitIcon);
-
         isConnected = new JMenuItem("isConnected");
         shortestPathDist = new JMenuItem("shortestPathDist");
         shortestPath = new JMenuItem("shortestPath");
         center = new JMenuItem("center");
         tsp = new JMenuItem("tsp");
-
-        isConnected.addActionListener(this);
-        shortestPath.addActionListener(this);
-        shortestPathDist.addActionListener(this);
-        center.addActionListener(this);
-        tsp.addActionListener(this);
-
-        fileMenu.setMnemonic(KeyEvent.VK_F); // Alt + f for file
-        funcMenu.setMnemonic(KeyEvent.VK_A); // Alt + e for func
-        editMenu.setMnemonic(KeyEvent.VK_E); // Alt + h for edit
-        loadItem.setMnemonic(KeyEvent.VK_L); // Alt + f + l for load
-        saveItem.setMnemonic(KeyEvent.VK_S); // Alt + f + s for save
-        exitItem.setMnemonic(KeyEvent.VK_E); // Alt + f + e for exit
-        cleanScreen.setMnemonic(KeyEvent.VK_D); // Alt + f + d for clean screen
 
         addNode = new JMenuItem("Add Node");
         deletNode = new JMenuItem("Remove Node");
@@ -128,6 +127,42 @@ public class GuiGraph extends JFrame implements ActionListener {
         deletNode.addActionListener(this);
         addEdge.addActionListener(this);
         deletEdge.addActionListener(this);
+
+
+        isConnected.addActionListener(this);
+        shortestPath.addActionListener(this);
+        shortestPathDist.addActionListener(this);
+        center.addActionListener(this);
+        tsp.addActionListener(this);
+
+        loadItem.addActionListener(this);
+        saveItem.addActionListener(this);
+        exitItem.addActionListener(this);
+        cleanScreen.addActionListener(this);
+
+
+        loadItem.setIcon(loadIcon);
+        saveItem.setIcon(saveIcon);
+        exitItem.setIcon(exitIcon);
+        cleanScreen.setIcon(cleanIcon);
+        isConnected.setIcon(connectedIcon);
+        shortestPathDist.setIcon(shortestPathDistIcon);
+        shortestPath.setIcon(shortestPathIcon);
+        center.setIcon(centerIcon);
+        tsp.setIcon(tspIcon);
+        addNode.setIcon(addNodeIcon);
+        deletNode.setIcon(deletNodeIcon);
+        addEdge.setIcon(addEdgeIcon);
+        deletEdge.setIcon(deletEdgeIcon);
+
+
+        fileMenu.setMnemonic(KeyEvent.VK_F); // Alt + f for file
+        funcMenu.setMnemonic(KeyEvent.VK_A); // Alt + e for func
+        editMenu.setMnemonic(KeyEvent.VK_E); // Alt + h for edit
+        loadItem.setMnemonic(KeyEvent.VK_L); // Alt + f + l for load
+        saveItem.setMnemonic(KeyEvent.VK_S); // Alt + f + s for save
+        exitItem.setMnemonic(KeyEvent.VK_E); // Alt + f + e for exit
+        cleanScreen.setMnemonic(KeyEvent.VK_D); // Alt + f + d for clean screen
 
         fileMenu.add(loadItem);
         fileMenu.add(saveItem);

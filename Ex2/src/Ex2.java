@@ -47,7 +47,12 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-//        runGUI("data/G1.json");      //only for self testing
+        try {
+//            runGUI("./Ex2/data/G1.json");      //only for self testing
         runGUI(args[0]);
+        }
+        catch (Exception e){
+            new GuiGraph();
+        }
     }
 }
