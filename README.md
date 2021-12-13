@@ -2,7 +2,6 @@
 ![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/Graph.jpeg)
 This project is the third task in the course. The task implements a data structure of weighted and directional gragh. The project implements a number of algorithms on the graph including the check if the graph is connected, calculate a short path between two vertices in the graph and the ability to implement graphical interface which includes presenting the graph, load it from files and run algorithms on the graph and more. In the paragraphs below I will detail the classes in the project, explain the principles of the implementation and more.
 
-**ID of presenters: 315858506,316156108**
 
 ## Table of contents
 * [Main classes planning](#Main-classes-planning)
