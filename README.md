@@ -126,36 +126,44 @@ In order to run the algorithms on a particular graph:
 
 ## Performances
 * IsConnected: 
-   - j1 = 138 ms (milisecond)
-   - 1000 Nodes = 338ms
-   - 10000 Nodes = 2.440 ms
-   - 100000 Nodes = 15.1 min
+   - j1 = 86 ms (milisecond)
+   - 1000 Nodes = 238 ms
+   - 10000 Nodes = 486 ms
+   - 100000 Nodes = 11.95 sec
    - 1000000 Nodes = timeout
    
-* Center: O(dikstra * n) (calculates shortest path for each node)
-   - j1 = 138 ms
-   - 1000 Nodes = 11.95 sec
-   - 10000 Nodes = 41 min
+* Center:
+   - j1 = 111 ms
+   - 1000 Nodes = 11.62 sec
+   - 10000 Nodes = 38 min
    - 100000 Nodes = timeout
    - 1000000 Nodes = timeout
    
 * ShortestpathDist: 
    - j1 = 112 ms
-   - 1000 Nodes = 446 ms
-   - 10000 Nodes = 2.759 sec
+   - 1000 Nodes = 309 ms
+   - 10000 Nodes = 1.146 sec
    - 100000 Nodes = timeout 
    - 1000000 Nodes = timeout
 
 * ShortestpathDist: 
    - j1 = 106 ms
    - 1000 Nodes = 393 ms
-   - 10000 Nodes = 2.713 sec
+   - 10000 Nodes = 1.203 sec
    - 100000 Nodes = timeout
    - 1000000 Nodes = timeout
 
 ## Visualization
 json1 with tsp function of some nodes:
 ![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/TSPgraph.jpeg)
+
+json2 with shortest path between 2 nodes
+![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/g2short.jpeg)
+
+json2 after removing 3 nodes
+![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/g2remove.jpeg)
+
+
 
 ### External info
 
