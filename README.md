@@ -153,6 +153,8 @@ In order to run the algorithms on a particular graph:
    - 100000 Nodes = timeout
    - 1000000 Nodes = timeout
 
+> NOTE: the graphs of 100000 and 1000000 wer'e to big so we couldn't upload them to the github.
+
 ## Visualization
 json1 with tsp function of some nodes:
 ![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/TSPgraph.jpeg)
