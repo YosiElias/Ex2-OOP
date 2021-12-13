@@ -6,8 +6,9 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Time;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 class Ex2Test {
     DirectedWeightedGraphAlgorithms algo;
@@ -17,7 +18,7 @@ class Ex2Test {
     String j4 = "data/G4.json";     //this is json we write for small testing
     String j1k = "data/1000Nodes.json";
     String j10k = "data/10000Nodes.json";
-    String j100k = "data/100000.json";
+    String j100k = "C:/Users/Aviva/Desktop/data/100000.json";
 
     @org.junit.jupiter.api.Test
     void getGrapg() {
@@ -187,12 +188,24 @@ class Ex2Test {
         }
         Assert.assertTrue(exceptionThrow);
         exceptionThrow = false;
-
+        //test remove:
+        it1 = algo.getGraph().nodeIter();
+        try {
+            Assert.assertEquals(it1.next().getKey(), 0);
+            Assert.assertEquals(it1.next().getKey(), 1);
+            it1.remove();
+            it1.remove();
+            Assert.assertEquals(it1.next().getKey(), 2);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            exceptionThrow = true;    //the iterator throw NoSuchElementException as we expected
+        }
+        Assert.assertFalse(exceptionThrow);
 
 
         //test itrerator of Edges:
         Iterator<EdgeData> itEdge = algo.getGraph().edgeIter();
-        algo.getGraph().removeEdge(0, 1);  //make change in graph after get the iterator
+        algo.getGraph().removeEdge(8, 9);  //make change in graph after get the iterator
         try {
             itEdge.next();
         } catch (RuntimeException e) {
@@ -200,17 +213,43 @@ class Ex2Test {
         }
         Assert.assertTrue(exceptionThrow);
         exceptionThrow = false;
-
+        //test remove:
+        itEdge = algo.getGraph().edgeIter();
+        try {
+            Assert.assertEquals(itEdge.next().get_src(), 14);
+            Assert.assertEquals(itEdge.next().get_src(), 12);
+            itEdge.remove();
+            itEdge.remove();
+            Assert.assertEquals(itEdge.next().get_dest(), 13);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            exceptionThrow = true;    //the iterator throw NoSuchElementException as we expected
+        }
+        Assert.assertFalse(exceptionThrow);
 
         //test itrerator of NeighborsEdges:
-        Iterator<EdgeData> itEdgNieg = algo.getGraph().edgeIter(0);
-        algo.getGraph().removeNode(1);  //make change in graph after get the iterator
+        Iterator<EdgeData> itEdgNieg = algo.getGraph().edgeIter(12);
+        algo.getGraph().removeNode(10);  //make change in graph after get the iterator
         try {
             itEdgNieg.next();
         } catch (RuntimeException e) {
             exceptionThrow = true;    //the iterator throw NoSuchElementException as we expected
         }
         Assert.assertTrue(exceptionThrow);
+        exceptionThrow = false;
+        //test remove:
+        itEdgNieg = algo.getGraph().edgeIter(6);
+        try {
+            Assert.assertEquals(itEdgNieg.next().get_dest(), 7);
+            Assert.assertEquals(itEdgNieg.next().get_dest(), 2);
+            itEdgNieg.remove();
+            itEdgNieg.remove();
+            Assert.assertEquals(itEdgNieg.next().get_dest(), 5);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            exceptionThrow = true;    //the iterator throw NoSuchElementException as we expected
+        }
+        Assert.assertFalse(exceptionThrow);
     }
 
 

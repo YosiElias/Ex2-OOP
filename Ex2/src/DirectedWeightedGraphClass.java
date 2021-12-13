@@ -105,6 +105,7 @@ public class DirectedWeightedGraphClass implements DirectedWeightedGraph {
             Iterator<NodeData> iter = _Nodes.values().iterator();
             private NodeData cur = null;
             private NodeData lst = null;
+            private NodeData temp = null;
             private int N_ITERMC = MC;
 
             @Override
@@ -120,33 +121,42 @@ public class DirectedWeightedGraphClass implements DirectedWeightedGraph {
                 if (N_ITERMC != MC) {
                     throw new RuntimeException("the graph has changed");
                 }
-                return iter.next();
+                cur = iter.next();;
+                return cur;
             }
-//            @Override     //Todo: add remove !
-//            public void remove() {
-//                if (N_ITERMC != MC) {
-//                    throw new RuntimeException("the graph has changed");
-//                } else if (temp!=null){
-//                    removeNode(temp.getKey());
-//                    N_ITERMC = MC;
-//                }
-//            }
-//            @Override
-//            public void remove() {
-//                removeNode(cur.getKey());
-//                NodeData last = lst;
-//                nodeIter();
-//                while (cur != last) {
-//                    iter.next();
-//                }
-//            }
+            @Override
+            public void remove() {
+                if (N_ITERMC != MC) {
+                    throw new RuntimeException("the graph has changed");
+                } else if (cur!=null){
+                    Iterator<NodeData> iterLast = _Nodes.values().iterator();
+                    temp = null;
+                    while (iterLast.hasNext() && temp != cur) { //for case of remove
+                        lst = temp;
+                        temp = iterLast.next();
+                    }
+
+                    int keyCur = cur.getKey();
+                    removeNode(keyCur);
+                    iter = _Nodes.values().iterator();
+                    temp = null;
+                    while (iter.hasNext() && temp != lst) { //for case of remove
+                        temp = iter.next();
+                    }
+                    cur = temp;
+                    N_ITERMC = MC;
+                }
+            }
         };
     }
 
     @Override
-    public Iterator<EdgeData> edgeIter() {  //Todo: add remove !
+    public Iterator<EdgeData> edgeIter() {
         return new Iterator<EdgeData>() {
             Iterator<EdgeData> e_iter =_Edges.values().iterator();
+            private EdgeData cur = null;
+            private EdgeData lst = null;
+            private EdgeData temp = null;
             private int E_ITERMC=MC;
             @Override
             public boolean hasNext() {
@@ -161,15 +171,41 @@ public class DirectedWeightedGraphClass implements DirectedWeightedGraph {
                 if(E_ITERMC!=MC){
                     throw new RuntimeException("the graph has changed");
                 }
-                return e_iter.next();
+                cur = e_iter.next();
+                return cur;
+            }
+
+            @Override
+            public void remove() {
+                if (E_ITERMC != MC) {
+                    throw new RuntimeException("the graph has changed");
+                } else if (cur!=null){
+                    Iterator<EdgeData> iterLast = _Edges.values().iterator();
+                    temp = null;
+                    while (iterLast.hasNext() && temp != cur) { //for case of remove, go to last
+                        lst = temp;
+                        temp = iterLast.next();
+                    }
+                    removeEdge(cur.get_src(), cur.get_dest());
+                    e_iter = _Edges.values().iterator();
+                    temp = null;
+                    while (e_iter.hasNext() && temp != lst) { //go to new current
+                        temp = e_iter.next();
+                    }
+                    cur = temp;
+                    E_ITERMC = MC;
+                }
             }
         };
     }
 
     @Override
-    public Iterator<EdgeData> edgeIter(int node_id) {  //Todo: add remove !
+    public Iterator<EdgeData> edgeIter(int node_id) {
         return new Iterator<EdgeData>() {
             Iterator<EdgeData> e_iter =_neighborsFromNode.get(node_id).values().iterator();
+            private EdgeData cur = null;
+            private EdgeData lst = null;
+            private EdgeData temp = null;
             private int E_ITERMC=MC;
             @Override
             public boolean hasNext() {
@@ -184,7 +220,30 @@ public class DirectedWeightedGraphClass implements DirectedWeightedGraph {
                 if(E_ITERMC!=MC){
                     throw new RuntimeException("the graph has changed");
                 }
-                return e_iter.next();
+                cur = e_iter.next();
+                return cur;
+            }
+
+            @Override
+            public void remove() {
+                if (E_ITERMC != MC) {
+                    throw new RuntimeException("the graph has changed");
+                } else if (cur!=null){
+                    Iterator<EdgeData> iterLast =_neighborsFromNode.get(node_id).values().iterator();
+                    temp = null;
+                    while (iterLast.hasNext() && temp != cur) { //go to last
+                        lst = temp;
+                        temp = iterLast.next();
+                    }
+                    removeEdge(cur.get_src(), cur.get_dest());
+                    e_iter = _neighborsFromNode.get(node_id).values().iterator();
+                    temp = null;
+                    while (e_iter.hasNext() && temp != lst) { //go to new current
+                        temp = e_iter.next();
+                    }
+                    cur = temp;
+                    E_ITERMC = MC;
+                }
             }
         };
     }

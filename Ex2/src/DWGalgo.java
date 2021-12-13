@@ -2,14 +2,13 @@ import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
 import api.EdgeData;
 import api.NodeData;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.*;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 
 class node{
@@ -52,11 +51,21 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
         return ans;
     }
 
+    /**
+     * Order of actions: we check one node(some node)- if there is a path from him to all other nodes(with neighbors from hashmap)
+     * We based on BFS: first, the node who chosen got entered to the queue.
+     * Then, move all the edges goes out from the current node.
+     * Each node entered one time to the queue.
+     * Return the process until the queue is empty(until we moved all the nodes and edges)
+     * If not all nodes has been in the queue - return false - there is no path.
+     * else - do the same process on the transpose graph (which we saved when creating the graph(neighbours to node field)
+     * @return true if the answer is yes on both BFS.
+     */
     @Override
     public boolean isConnected() {
         boolean ans = false;
         if (BfsFrom()) {
-            ans= BfsTo();
+            ans= BfsTo(); // transpose graph- transpose the edges direction
         }
         return ans;
     }
@@ -66,7 +75,7 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
         Queue<NodeData> q = new LinkedList<>();
         Iterator<NodeData> it = _graph.nodeIter();
         HashMap<Integer,NodeData> hash=_graph.getNodeHash();
-        reset(hash);
+        reset(hash); // Reset the info - make sure each node will enter once
         NodeData node = it.next();
         q.add(node);
         counter++;
@@ -74,7 +83,7 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
         while (!q.isEmpty()) {
             NodeData temp_n = q.poll();
             HashMap<String, EdgeData> ee = _graph.getNeighboursToHash(temp_n.getKey());
-            for (Map.Entry<String, EdgeData> set :
+            for (Map.Entry<String, EdgeData> set : //move all the edges from the node
                     ee.entrySet()) {
                 int i = set.getValue().get_src();
                 NodeData n = _graph.getNode(i);
@@ -85,14 +94,14 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
                 }
             }
         }
-        if(counter==_graph.nodeSize()){
+        if(counter==_graph.nodeSize()){ //If not all nodes has been in the queue
             return true;
         }
         return false;
     }
 
 
-    private boolean BfsFrom() {
+    private boolean BfsFrom() { //Same process on the transpose graph.
         int counter = 0;
         Queue<NodeData> q = new LinkedList<>();
         Iterator<NodeData> it = _graph.nodeIter();
@@ -136,7 +145,7 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
         for (Map.Entry<Integer, NodeData> set :
                 nodeHash.entrySet()) {
             set.getValue().setInfo(""+(DWGalgo.INF));
-            set.getValue().setTag(-1);  // Todo: !
+            set.getValue().setTag(-1);
         }
     }
 
@@ -144,7 +153,7 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
     @Override
     public double shortestPathDist(int src, int dest) {
         double ans = sshortestPathDist(src, dest, _graph);
-        if (ans==DWGalgo.INF)   //Todo: change !
+        if (ans==DWGalgo.INF)
             return -1;
         else
             return ans;
@@ -184,7 +193,7 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
                     EdgeData edge = _graph.getEdge(cur_key, n.getKey());
                     double new_tag = edge.get_weight() + Double.parseDouble(cur.getInfo());
                     if (new_tag < DWGalgo.INF && (Double.parseDouble(n.getInfo()) == DWGalgo.INF || Double.parseDouble(n.getInfo()) > new_tag)) {
-                        currNode.wight = DWGalgo.INF;   //Todo: change !
+                        currNode.wight = DWGalgo.INF;
                         n.setTag(cur_key);
                         n.setInfo("" + new_tag);
                         node newNode = new node((NodeDataClass) n);
@@ -195,7 +204,7 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
             visited.put(cur.getKey(), (NodeDataClass) cur);
             while (!stop && !heap.isEmpty() && visited.containsKey(cur.getKey()))   //  && ((NodeDataClass) cur).get_mark()
             {
-                node tempNode = heap.poll();//Todo: change ! was: remove();
+                node tempNode = heap.poll();
                 NodeDataClass temp = tempNode._n;
                 cur = temp;
                 currNode = tempNode;
@@ -213,11 +222,20 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
         return ssshortestPath(src, dest, _graph);
     }
 
+    /**
+     * Order of actions: call to 'shortestPathDist' function.
+     * Every node that got updated - we also keep in the 'tag' field the node that he came from.
+     * Now start from the dest node - go to his 'tag' - add to the stack his tag(the node that he came from).
+     * repeat the process until the current node will be the src node.
+     * Then push the elements in the stack to arrayList (need to reverse).
+     * return the arraylist
+     * If there is no path - return null.
+     */
     public static List<NodeData> ssshortestPath(int src, int dest, DirectedWeightedGraphClass _graph) {
         sshortestPathDist(src, dest, _graph);
         Stack<NodeData> rev_path = new Stack<>();
         NodeData curr = _graph.getNode(dest);
-        while (curr.getKey() != src) {  //Todo: BAG - sortpath -> tsp 123-2 javaHeap
+        while (curr.getKey() != src) {
             rev_path.push(curr);
             if (curr.getTag() == -1) {
                 return null;
@@ -334,7 +352,7 @@ public class DWGalgo implements DirectedWeightedGraphAlgorithms {
 
 
     @Override
-    public boolean save(String file) {  //Todo: not sure if the json need to be in specific format ?
+    public boolean save(String file) {
         return serialize(file);
     }
 
