@@ -158,10 +158,10 @@ json1 with tsp function of some nodes:
 ![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/TSPgraph.jpeg)
 
 json2 with shortest path between 2 nodes
-![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/g2short.jpeg)
+![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/GraphShort.jpeg)
 
 json2 after removing 3 nodes
-![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/g2remove.jpeg)
+![This is an image](https://github.com/YosiElias/Ex2-OOP/blob/master/Ex2/src/resources/Graph2.jpeg)
 
 
 
